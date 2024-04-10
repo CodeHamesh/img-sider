@@ -1,94 +1,47 @@
-let users = [
-    {
-        profilepic: 'https://images.unsplash.com/photo-1645994743395-83d4b809c321?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        msgnum: '4',
-        displaypic: "https://images.unsplash.com/photo-1622804136680-46dc2a8f0598?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "delhi,india",
-        name: 'harshita',
-        age: "21",
-        bio: "GSAP is a JavaScript library for building high-performance animations that work in **every** major browser.",
-    },
-
-    {
-        profilepic: 'https://images.unsplash.com/photo-1535295972055-1c762f4483e5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        msgnum: '9',
-        displaypic: "https://images.unsplash.com/photo-1526510747491-58f928ec870f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "jaipur,india",
-        name: 'poonam',
-        age: "22",
-        bio: "GSAP is a JavaScript library for building high-performance animations that work in **every** major browser.",
-    },
-
-    {
-        profilepic: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        msgnum: '1',
-        displaypic: "https://images.unsplash.com/photo-1581403341630-a6e0b9d2d257?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        location: "alwar,india",
-        name: 'genu',
-        age: "22",
-        bio: "GSAP is a JavaScript library for building high-performance animations that work in **every** major browser.",
-    },
-
-]
-
-let curr = 0;
+let imgs = ["https://i.pinimg.com/564x/0d/0d/4f/0d0d4f9ffd52c72baffb5f795e41d4ed.jpg", "https://i.pinimg.com/564x/75/5b/f4/755bf49973a5c627b97507ce5e70893f.jpg", "https://i.pinimg.com/564x/08/80/73/088073cca3c76dbd3d857135d974d6d7.jpg", "https://i.pinimg.com/564x/7c/53/d9/7c53d979df3c284bcac23755113ed4f0.jpg", "https://i.pinimg.com/564x/b1/7d/df/b17ddfcc6ebf18b40aab442bab69312c.jpg"]
 
 function select(el) {
     return document.querySelector(el)
 }
-function displayimg(params) {
-    select(".maincard img").src = users[curr].displaypic
-    select(".upcomingcard img").src = users[curr + 1].displaypic
-
-    select(".profile img").src = users[curr].profilepic
-
-    select(".msgnum p").innerText = users[curr].msgnum
-
-    select(".loc h5").innerText = users[curr].location
-
-    select(".name h1").innerText = users[curr].name
-    select(".name h2").innerText = users[curr].age
-
-    select(".bio h6").innerText = users[curr].bio
-}
-displayimg()
-
-function imgChange() {
-  let tl = gsap.timeline({
-      onComplete: function(){
-        let mainCard = select(".maincard")
-        let upcomingcard = select(".upcomingcard")
-
-        mainCard.classList.add("z-index: 1")
-        mainCard.classList.add(".upcomingcard")
-        mainCard.classList.remove(".maincard")
-        mainCard.classList.add("z-index: 2")
-        upcomingcard.classList.remove(".upcomingcard")
-        upcomingcard.classList.add(".maincard")
-        
-        gsap.set(".maincard",{
-            scale:1,
-            opacity:1
-        })
-      }
-  })
-
-  tl.to(".maincard",{
-    scale: 1.1,
-    opacity:0,
-    ease: Circ,
-    duration:0.9
-  },"a")
-  tl.frome(".upcomingcard",{
-      scale: 0.7,
-      opacity:0,
-      else: Circ,
-      duration:0.5
-  },"a")
-    
-}
-
-let closebtn = document.querySelector(".close")
-closebtn.addEventListener("click",()=>{
-    imgChange()
+let add = "";
+console.log(add);
+imgs.forEach((img, index) => {
+    add += ` <img src=${img} id=${index}>`
+    console.log(add);
+    select(".imgbox").innerHTML = add;
 })
+
+let imgbox = document.querySelectorAll(".imgbox img")
+let next = document.querySelector(".next")
+let prev = document.querySelector(".prev")
+let count = 0;
+
+
+function moveimg() {
+    imgbox.forEach((img, index) => {
+        if (index === count) {
+            img.style.display = "block"
+        } else {
+            img.style.display = "none"
+        }
+    })
+
+}
+next.addEventListener("click", () => {
+    count++
+    if (count >= imgbox.length) {
+        count = 0
+    }
+    moveimg()
+})
+prev.addEventListener("click", () => {
+    count--;
+    if (count < 0) {
+        count = imgbox.length - 1
+    }
+    moveimg()
+})
+
+
+
+
